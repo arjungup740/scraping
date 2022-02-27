@@ -1,15 +1,14 @@
 import os
 import requests
 import pandas as pd
-import lxml
+# import lxml
 from bs4 import BeautifulSoup
 import datetime
-import random
 
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
-pd.set_option('precision', 1)
+# pd.set_option('precision', 1)
 
 
 def pull_actor_lists(list_url):
@@ -73,6 +72,7 @@ for i in range(1, 11):
 	list_of_ranking_dfs.append(df_of_rankings)
 
 df_of_rankings = pd.concat(list_of_ranking_dfs)
+# df_of_rankings.to_csv(f'{os.getcwd()}/actor_stuff/list_of_1000_actors.csv')
 
 dict_of_dfs = {}
 start = datetime.datetime.now()
