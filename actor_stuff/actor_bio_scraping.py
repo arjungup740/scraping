@@ -16,7 +16,7 @@ def scrape_wikipedia_page_of_text(target_url):
 	)
 	soup = BeautifulSoup(response.text, 'html.parser')
 
-	test = soup.extract('p').get_text().rstrip()
+	# test = soup.extract('p').get_text().rstrip()
 	test = soup.findAll('p')  # .get_text().rstrip()
 	text_list = [x.get_text().rstrip() for x in test]
 	full_text = ' '.join(text_list)
@@ -31,6 +31,17 @@ def scrape_wikipedia_page_of_text(target_url):
 
 	return print(f'succesfully wrote {actor_name} file')
 
+target_url = 'https://en.wikipedia.org/wiki/Brad_Pitt'
+response = requests.get(
+	url=target_url,
+)
+soup = BeautifulSoup(response.text, 'html.parser')
+
+h1s = [x.get_text().rstrip() for x in soup.findAll('h1')]
+h2s = [x.get_text().rstrip() for x in soup.findAll('h2')]
+h3s = [x.get_text().rstrip() for x in soup.findAll('h3')]
+
+h1s
 
 ### pull actor names in
 list_of_1000_actors = pd.read_csv(f'{os.getcwd()}/actor_stuff/list_of_1000_actors.csv')
@@ -63,11 +74,18 @@ df = pd.pivot_table(pd.melt(raw, id_vars = ['word'], var_name = 'actor', value_n
 df[df['actor'] == 'Angela_Lansbury']
 
 scores = df.set_index('actor').sum(axis = 1)
-scores[scores > 5]
+scores[scores > 5] # doesn't pick up brad pitt, and it should
 
 
-# todo AG: grab all the h1, 2s, 3s, if any of them have the term then they definitely have had it
+# todo AG:
 
 # todo AG: can try training some sort of ML the way the name thing did
 
 # can't do n-grams, just single words
+
+### TODO
+# grab all the h1, 2s, 3s, if any of them have a term then they definitely have had it
+	# then figure out a way to also process it intelligently/incorporate it into the current analysis
+# grab more words and terms to look for
+# look into how the name people did ML on the names, apply it here
+# look into putting up the 1st thousand pages on Mturk and seeing what happens
